@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.redhat</groupId>
   <artifactId>quarkus-demo</artifactId>
@@ -67,6 +68,10 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-jsonb</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-infinispan-client</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -130,8 +135,9 @@
         </plugins>
       </build>
       <properties>
+        <quarkus.native.container-runtime>podman</quarkus.native.container-runtime>
         <quarkus.package.type>native</quarkus.package.type>
-        <quarkus.native.container-runtime>podman</quarkus.native.container-runtime></properties>
+      </properties>
     </profile>
   </profiles>
 </project>
