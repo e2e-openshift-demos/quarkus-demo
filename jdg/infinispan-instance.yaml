@@ -1,0 +1,18 @@
+apiVersion: infinispan.org/v1
+kind: Infinispan
+metadata:
+  name: quarkus-test
+spec:
+  container:
+    memory: 512Mi
+  image: 'infinispan/server:11.0.1.Final'
+  logging: {}
+  replicas: 1
+#  security:
+#    endpointEncryption:
+#      certSecretName: datagrid-keystore
+#      type: secret
+#    endpointSecretName: datagrid-identities
+#  expose:
+#    type: Route
+##    host: quarkus-datagrid.apps-crc.testing
