@@ -6,6 +6,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import com.redhat.codeready.configuration.DataGridConfiguration;
 import com.redhat.codeready.model.AbstractDataObject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -24,6 +25,7 @@ public class QuarkusDataService {
   String cacheName;
 
   @Inject
+  @DataGridConfiguration
   RemoteCacheManager cacheManager;
 
   RemoteCache<UUID, AbstractDataObject> quarkus;

@@ -10,6 +10,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import com.redhat.codeready.configuration.DataGridConfiguration;
 import com.redhat.codeready.model.AbstractDataObject;
 import com.redhat.codeready.model.QuarkusDemoDataObject;
 
@@ -41,6 +42,7 @@ public class CacheLoader {
   String cacheName;
 
   @Inject
+  @DataGridConfiguration
   RemoteCacheManager cacheManager;
 
   void onStart(@Observes @Priority(value = START_PRIORITY) final StartupEvent event) {
@@ -67,7 +69,7 @@ public class CacheLoader {
       cache.put(ado.getId(), ado);
       final AbstractDataObject a = cache.get(ado.getId());
       if (a == null) {
-        final String msg = String.format("CACHE LOAD ERROR: Object with id {} not found in th cache {} ", ado.getId(), cache.getName());
+        final String msg = String.format("CACHE LOAD ERROR: Object with id %s not found in th cache %s", ado.getId(), cache.getName());
         LOGGER.error(msg);
         throw new RuntimeException(msg);
       }

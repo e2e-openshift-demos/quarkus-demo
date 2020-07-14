@@ -1,0 +1,9 @@
+---
+#
+# https://github.com/infinispan/infinispan-images
+#
+keystore:
+  password: changeit
+  path: /user-config/server.pfx
+  type: PFX
+  alias: 1

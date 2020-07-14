@@ -5,6 +5,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import com.redhat.codeready.configuration.DataGridConfiguration;
+
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.infinispan.client.hotrod.RemoteCacheManager;
 import org.infinispan.commons.configuration.XMLStringConfiguration;
@@ -23,6 +25,7 @@ public class CacheInitializer {
   String cacheName;
 
   @Inject
+  @DataGridConfiguration
   RemoteCacheManager cacheManager;
 
   void onStart(@Observes @Priority(value = START_PRIORITY) final StartupEvent event) {
