@@ -1,1 +1,1 @@
-#ARTIFACT_COPY_ARGS=-p -r target/lib/ target/*-runner.jar
+# ARTIFACT_COPY_ARGS=-p -r target/lib/ target/*-runner.jar
