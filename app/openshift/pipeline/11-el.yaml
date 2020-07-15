@@ -6,6 +6,6 @@ spec:
   serviceAccountName: pipeline
   triggers:
   - bindings:
-    - name: quarkus-demo-gitea
+    - name: quarkus-demo
     template:
       name: quarkus-demo

@@ -7,8 +7,8 @@ metadata:
     app.kubernetes.io/version: "1.0-SNAPSHOT"
   name: "quarkus-demo-http"
 spec:
-  host: ""
-  path: "/"
+#  host: ""
+#  path: "/"
   port:
     targetPort: 8080
   to:
@@ -31,4 +31,3 @@ spec:
   to:
     kind: "Service"
     name: "quarkus-demo"
-

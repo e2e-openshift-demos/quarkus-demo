@@ -12,6 +12,7 @@ spec:
   - name: git-repo-name
     description: The name of the deployment to be created / patched
   - name: openshift-project-name
+    default: quarkus-demo
 
   resourcetemplates:
   - apiVersion: tekton.dev/v1alpha1
