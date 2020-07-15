@@ -7,7 +7,7 @@ spec:
   - default: quarkus-demo
     name: APP_NAME
     type: string
-  - default: app/openshift
+  - default: openshift
     name: MANIFEST_PATH
     type: string
   - default: 'false'

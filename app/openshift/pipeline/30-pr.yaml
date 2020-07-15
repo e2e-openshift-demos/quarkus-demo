@@ -7,11 +7,11 @@ spec:
   params:
     - name: url
 #      value: 'https://github.com/e2e-openshift-demos/quarkus-demo'
-      value: 'https://github.com/e2e-openshift-demos/quarkus-demo'
+      value: 'https://git.apps-crc.testing/code-ready/quarkus-demo-github'
     - name: revision
       value: b-step-06
     - name: sslVerify
-      value: $(params.GIT_SSL_VERIFY)
+      value: 'false'
   type: git
 ---
 apiVersion: tekton.dev/v1alpha1
@@ -21,5 +21,5 @@ metadata:
 spec:
   params:
     - name: url
-      value: 'image-registry.openshift-image-registry.svc:5000/$(params.OPENSHIFT_PROJECT)/quarkus-demo'
+      value: 'image-registry.openshift-image-registry.svc:5000/quarkus-demo/quarkus-demo'
   type: image
