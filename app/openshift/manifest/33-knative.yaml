@@ -1,0 +1,56 @@
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: quarkus-demo
+    app.kubernetes.io/version: 1.0-SNAPSHOT
+  name: quarkus-demo-k
+spec:
+  template:
+    spec:
+      volumes:
+      - name: ca-store
+        secret:
+          defaultMode: 384
+          optional: false
+          secretName: custom-ca
+      - name: server-certs
+        secret:
+          defaultMode: 384
+          optional: false
+          secretName: quarkus-demo-certs
+      - configMap:
+          defaultMode: 384
+          name: quarkus-application-config
+          optional: false
+        name: quarkus-config
+      containers:
+      - args:
+        - -jar
+        - /deployments/quarkus-demo-1.0-SNAPSHOT-runner.jar
+        - -Dquarkus.http.host=0.0.0.0
+        - -Djava.util.logging.manager=org.jboss.logmanager.LogManager
+        command:
+        - java
+        image: image-registry.openshift-image-registry.svc:5000/quarkus-demo/quarkus-demo:latest
+        imagePullPolicy: IfNotPresent
+        name: quarkus-demo
+        ports:
+        - containerPort: 8080
+          name: h2c
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /deployments/certs/ca.pem
+          name: ca-store
+          readOnly: false
+          subPath: ca.pem
+        - mountPath: /deployments/config
+          name: quarkus-config
+          readOnly: false
+          subPath: ""
+        - mountPath: /deployments/certs/server.pfx
+          name: server-certs
+          readOnly: false
+          subPath: server.pfx
+        workingDir: /deployments
