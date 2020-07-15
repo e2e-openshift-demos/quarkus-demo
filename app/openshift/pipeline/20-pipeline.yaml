@@ -7,14 +7,11 @@ spec:
   - default: quarkus-demo
     name: APP_NAME
     type: string
-  - default: app/openshift
+  - default: source/app/openshift
     name: MANIFEST_PATH
     type: string
-  - default: 'false'
-    name: GIT_SSL_VERIFY
-    type: string
-  - default: quarkus-demo
-    name: OPENSHIFT_PROJECT
+  - default: app
+    name: PATH_CONTEXT
     type: string
   resources:
   - name: app-source
@@ -35,6 +32,8 @@ spec:
       name: openshift-client
   - name: s2i-java
     params:
+    - name: PATH_CONTEXT
+      value: $(params.PATH_CONTEXT)
     - name: TLSVERIFY
       value: "false"
     resources:
