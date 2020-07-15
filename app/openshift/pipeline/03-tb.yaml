@@ -13,4 +13,4 @@ spec:
   - name: git-revision
     value: $(body.commits[0].id)
   - name: openshift-project-name
-    value: quarkus-demo-test
+    value: quarkus-demo
