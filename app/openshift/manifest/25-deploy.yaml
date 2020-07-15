@@ -76,6 +76,7 @@ spec:
           name: server-certs
           readOnly: false
           subPath: server.pfx
+        workingDir: /deployments
       serviceAccount: quarkus-demo
       volumes:
       - name: ca-store
