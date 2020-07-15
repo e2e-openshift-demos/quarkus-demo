@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Properties;
-import java.util.StringTokenizer;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -17,7 +16,6 @@ import org.infinispan.client.hotrod.RemoteCacheManager;
 import org.infinispan.client.hotrod.configuration.ClientIntelligence;
 import org.infinispan.client.hotrod.configuration.Configuration;
 import org.infinispan.client.hotrod.configuration.ConfigurationBuilder;
-import org.infinispan.commons.marshall.JavaSerializationMarshaller;
 import org.infinispan.commons.marshall.ProtoStreamMarshaller;
 import org.jboss.logging.Logger;
 
@@ -27,7 +25,7 @@ public class DatagridClientConfig {
   @ConfigProperty(name = "application.infinispan-client.java_serial_whitelist", defaultValue = "com.redhat.codeready.,java.util.UUID")
   String java_serial_whitelist;
 
-  @ConfigProperty(name = "application.infinispan.hotrod.config", defaultValue = "hotrod-client.properties")
+  @ConfigProperty(name = "application.infinispan.hotrod.config", defaultValue = "config/hotrod-client.properties")
   String hotrodConfigFile;
 
   @ConfigProperty(name = "application.infinispan-client.sni")
@@ -70,6 +68,8 @@ public class DatagridClientConfig {
         intellgence = ClientIntelligence.HASH_DISTRIBUTION_AWARE;
         break;
     }
+    LOGGER.infof("application.infinispan-client.trust_store_file_name: %s", caCert);
+    LOGGER.infof("application.infinispan-client.sni: %s", sni);
     builder.addServers(clientServerList).security().authentication().username(user).password(passwd)
         .saslMechanism(clientSaslMechanism).ssl().sniHostName(sni).trustStorePath(caCert)
         .clientIntelligence(intellgence);

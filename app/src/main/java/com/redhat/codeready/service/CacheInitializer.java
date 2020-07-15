@@ -13,6 +13,7 @@ import org.infinispan.commons.configuration.XMLStringConfiguration;
 import org.jboss.logging.Logger;
 
 import io.quarkus.runtime.StartupEvent;
+import io.quarkus.runtime.configuration.ProfileManager;
 
 @ApplicationScoped
 public class CacheInitializer {
@@ -30,6 +31,7 @@ public class CacheInitializer {
 
   void onStart(@Observes @Priority(value = START_PRIORITY) final StartupEvent event) {
     LOGGER.tracef("Entering to %s, event: %s, priority %d", "onStart()", event, START_PRIORITY);
+    LOGGER.infof("The application is starting with profile: %s", ProfileManager.getActiveProfile());
     LOGGER.infof("Working dir is: %s", new java.io.File("").getAbsoluteFile());
     // LOGGER.infof("Classpath: %s", System.getProperty("java.class.path"));
     final XMLStringConfiguration configuration = new XMLStringConfiguration(
