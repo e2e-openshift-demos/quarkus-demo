@@ -1,0 +1,15 @@
+/home/rcrc/src/openshift-demos/quarkus-demo/app/src/main/java/com/redhat/codeready/LoggingFilter.java
+/home/rcrc/src/openshift-demos/quarkus-demo/app/src/main/java/com/redhat/codeready/ReactiveGreetingResource.java
+/home/rcrc/src/openshift-demos/quarkus-demo/app/src/main/java/com/redhat/codeready/model/QuarkusDemoDataObjectMarshaller.java
+/home/rcrc/src/openshift-demos/quarkus-demo/app/src/main/java/com/redhat/codeready/configuration/DatagridClientConfig.java
+/home/rcrc/src/openshift-demos/quarkus-demo/app/src/main/java/com/redhat/codeready/service/QuarkusDataService.java
+/home/rcrc/src/openshift-demos/quarkus-demo/app/src/main/java/com/redhat/codeready/model/AbstractDataObject.java
+/home/rcrc/src/openshift-demos/quarkus-demo/app/src/main/java/com/redhat/codeready/configuration/DataGridConfiguration.java
+/home/rcrc/src/openshift-demos/quarkus-demo/app/src/main/java/com/redhat/codeready/mgmt/Counter.java
+/home/rcrc/src/openshift-demos/quarkus-demo/app/src/main/java/com/redhat/codeready/mgmt/CustomStatus.java
+/home/rcrc/src/openshift-demos/quarkus-demo/app/src/main/java/com/redhat/codeready/model/UUIDMarshaller.java
+/home/rcrc/src/openshift-demos/quarkus-demo/app/src/main/java/com/redhat/codeready/mgmt/CustomStatusService.java
+/home/rcrc/src/openshift-demos/quarkus-demo/app/src/main/java/com/redhat/codeready/model/QuarkusDemoDataObject.java
+/home/rcrc/src/openshift-demos/quarkus-demo/app/src/main/java/com/redhat/codeready/model/DataObjectSerializationContextInitializer.java
+/home/rcrc/src/openshift-demos/quarkus-demo/app/src/main/java/com/redhat/codeready/service/CacheInitializer.java
+/home/rcrc/src/openshift-demos/quarkus-demo/app/src/main/java/com/redhat/codeready/QuarkusResource.java

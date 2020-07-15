@@ -1,0 +1,14 @@
+package dataobject;
+
+message QuarkusDemoDataObject {
+   required int64 id_mostSigBits = 1;
+   required int64 id_leastSigBits = 2;
+   required int64 version_mostSigBits = 3;
+   required int64 version_leastSigBits = 4;
+   optional string name = 5;
+}
+
+message UUID {
+   required int64 mostSigBits = 1;
+   required int64 leastSigBits = 2;
+}
