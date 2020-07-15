@@ -10,12 +10,15 @@ import java.util.StringTokenizer;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 
+import com.redhat.codeready.model.DataObjectSerializationContextInitializer;
+
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.infinispan.client.hotrod.RemoteCacheManager;
 import org.infinispan.client.hotrod.configuration.ClientIntelligence;
 import org.infinispan.client.hotrod.configuration.Configuration;
 import org.infinispan.client.hotrod.configuration.ConfigurationBuilder;
 import org.infinispan.commons.marshall.JavaSerializationMarshaller;
+import org.infinispan.commons.marshall.ProtoStreamMarshaller;
 import org.jboss.logging.Logger;
 
 public class DatagridClientConfig {
@@ -86,11 +89,16 @@ public class DatagridClientConfig {
     } else {
       LOGGER.warnf("HotRod Client %s not found, tuning skipped", hotrodConfig.getAbsolutePath());
     }
-    builder.marshaller(new JavaSerializationMarshaller());
-    StringTokenizer whiteList = new StringTokenizer(java_serial_whitelist, ",");
-    while (whiteList.hasMoreTokens()) {
-      builder.addJavaSerialWhiteList(whiteList.nextToken());
-    }
+
+    ProtoStreamMarshaller marshaller = new ProtoStreamMarshaller();
+    marshaller.register(new DataObjectSerializationContextInitializer());
+    builder.marshaller(marshaller);
+
+    // builder.marshaller(new JavaSerializationMarshaller());
+    // StringTokenizer whiteList = new StringTokenizer(java_serial_whitelist, ",");
+    // while (whiteList.hasMoreTokens()) {
+    //   builder.addJavaSerialWhiteList(whiteList.nextToken());
+    // }
     Configuration config = builder.build();
     LOGGER.debugf("RemoteCache configuration: %s", config.properties());
     RemoteCacheManager manager = new RemoteCacheManager(config);
