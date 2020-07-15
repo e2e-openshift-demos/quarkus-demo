@@ -1,0 +1,21 @@
+---
+apiVersion: "image.openshift.io/v1"
+kind: "ImageStream"
+metadata:
+  labels:
+    app.kubernetes.io/name: "quarkus-demo"
+    app.kubernetes.io/version: "1.0-SNAPSHOT"
+    app.openshift.io/runtime: "quarkus"
+  name: "openjdk-11"
+spec:
+  dockerImageRepository: "registry.access.redhat.com/ubi8/openjdk-11"
+---
+apiVersion: "image.openshift.io/v1"
+kind: "ImageStream"
+metadata:
+  labels:
+    app.kubernetes.io/name: "quarkus-demo"
+    app.kubernetes.io/version: "1.0-SNAPSHOT"
+    app.openshift.io/runtime: "quarkus"
+  name: "quarkus-demo"
+spec: {}

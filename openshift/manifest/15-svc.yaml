@@ -1,0 +1,22 @@
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  labels:
+    app.kubernetes.io/name: "quarkus-demo"
+    app.kubernetes.io/version: "1.0-SNAPSHOT"
+    app.openshift.io/runtime: "quarkus"
+  name: "quarkus-demo"
+spec:
+  ports:
+  - name: "http1"
+    port: 8080
+    targetPort: 8080
+  - name: "h2"
+    protocol: TCP
+    port: 8443
+    targetPort: 8443
+  selector:
+    app.kubernetes.io/name: "quarkus-demo"
+    app.kubernetes.io/version: "1.0-SNAPSHOT"
+  type: "ClusterIP"

@@ -1,0 +1,104 @@
+---
+apiVersion: "apps.openshift.io/v1"
+kind: "DeploymentConfig"
+metadata:
+  labels:
+    app.kubernetes.io/name: "quarkus-demo"
+    app.kubernetes.io/version: "1.0-SNAPSHOT"
+    app.openshift.io/runtime: "quarkus"
+  name: "quarkus-demo"
+spec:
+  replicas: 1
+  selector:
+    app.kubernetes.io/name: "quarkus-demo"
+    app.kubernetes.io/version: "1.0-SNAPSHOT"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "quarkus-demo"
+        app.kubernetes.io/version: "1.0-SNAPSHOT"
+        app.openshift.io/runtime: "quarkus"
+    spec:
+      containers:
+      - args:
+        - "-jar"
+        - "/deployments/quarkus-demo-1.0-SNAPSHOT-runner.jar"
+        - "-Dquarkus.http.host=0.0.0.0"
+        - "-Djava.util.logging.manager=org.jboss.logmanager.LogManager"
+        command:
+        - "java"
+        env:
+        - name: "KUBERNETES_NAMESPACE"
+          valueFrom:
+            fieldRef:
+              fieldPath: "metadata.namespace"
+        - name: "JAVA_APP_JAR"
+          value: "/deployments/quarkus-demo-1.0-SNAPSHOT-runner.jar"
+        - name: "ALIAS_LL"
+          value: "alias ll='ls -l'"
+        image: ""
+        imagePullPolicy: "IfNotPresent"
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: "/health/live"
+            port: 8080
+            scheme: "HTTP"
+          initialDelaySeconds: 0
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 10
+        name: "quarkus-demo"
+        ports:
+        - containerPort: 8080
+          name: "http"
+          protocol: "TCP"
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: "/health/ready"
+            port: 8080
+            scheme: "HTTP"
+          initialDelaySeconds: 0
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 10
+        volumeMounts:
+        - mountPath: /deployments/certs/ca.pem
+          name: ca-store
+          readOnly: false
+          subPath: ca.pem
+        - mountPath: /deployments/config
+          name: quarkus-config
+          readOnly: false
+          subPath: ""
+        - mountPath: /deployments/certs/server.pfx
+          name: server-certs
+          readOnly: false
+          subPath: server.pfx
+      serviceAccount: quarkus-demo
+      volumes:
+      - name: ca-store
+        secret:
+          defaultMode: 384
+          optional: false
+          secretName: custom-ca
+      - name: server-certs
+        secret:
+          defaultMode: 384
+          optional: false
+          secretName: quarkus-demo-certs
+      - configMap:
+          defaultMode: 384
+          name: quarkus-application-config
+          optional: false
+        name: quarkus-config
+  triggers:
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - "quarkus-demo"
+      from:
+        kind: "ImageStreamTag"
+        name: "quarkus-demo:latest"
+    type: "ImageChange"

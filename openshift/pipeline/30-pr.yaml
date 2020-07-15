@@ -1,0 +1,25 @@
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: quarkus-source
+spec:
+  params:
+    - name: url
+#      value: 'https://github.com/e2e-openshift-demos/quarkus-demo'
+      value: 'https://github.com/e2e-openshift-demos/quarkus-demo'
+    - name: revision
+      value: b-step-06
+    - name: sslVerify
+      value: $(params.GIT_SSL_VERIFY)
+  type: git
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: quarkus-image
+spec:
+  params:
+    - name: url
+      value: 'image-registry.openshift-image-registry.svc:5000/$(params.OPENSHIFT_PROJECT)/quarkus-demo'
+  type: image

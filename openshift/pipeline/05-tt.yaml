@@ -1,0 +1,59 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: quarkus-demo
+spec:
+  params:
+  - name: git-repo-url
+    description: The git repository url
+  - name: git-revision
+    description: The git revision
+    default: master
+  - name: git-repo-name
+    description: The name of the deployment to be created / patched
+  - name: openshift-project-name
+
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1alpha1
+    kind: PipelineResource
+    metadata:
+      labels:
+        pipeline-resource/owner: "robot"
+      name: $(params.git-repo-name)-source-robot-$(uid)
+    spec:
+      type: git
+      params:
+      - name: sslVerify
+        value: 'false'
+      - name: revision
+        value: $(params.git-revision)
+      - name: url
+        value: $(params.git-repo-url)
+
+  - apiVersion: tekton.dev/v1alpha1
+    kind: PipelineResource
+    metadata:
+      labels:
+        pipeline-resource/owner: "robot"
+      name: $(params.git-repo-name)-image-robot-$(uid)
+    spec:
+      type: image
+      params:
+      - name: url
+        value: image-registry.openshift-image-registry.svc:5000/$(params.openshift-project-name)/$(params.git-repo-name):latest
+
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      name: qurkus-demo-robot-$(uid)
+    spec:
+      serviceAccountName: pipeline
+      pipelineRef:
+        name: quarkus-demo
+      resources:
+      - name: app-source
+        resourceRef:
+          name: $(params.git-repo-name)-source-robot-$(uid)
+      - name: app-image
+        resourceRef:
+          name: $(params.git-repo-name)-image-robot-$(uid)

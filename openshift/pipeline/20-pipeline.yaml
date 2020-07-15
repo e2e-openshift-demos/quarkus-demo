@@ -1,0 +1,65 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: quarkus-demo
+spec:
+  params:
+  - default: quarkus-demo
+    name: APP_NAME
+    type: string
+  - default: app/openshift
+    name: MANIFEST_PATH
+    type: string
+  - default: 'false'
+    name: GIT_SSL_VERIFY
+    type: string
+  - default: quarkus-demo
+    name: OPENSHIFT_PROJECT
+    type: string
+  resources:
+  - name: app-source
+    type: git
+  - name: app-image
+    type: image
+  tasks:
+  - name: init
+    params:
+    - name: SCRIPT
+      value: $(params.MANIFEST_PATH)/bin/create-quarkus-resources.sh && oc apply -f $(params.MANIFEST_PATH)/manifest
+    resources:
+      inputs:
+      - name: source
+        resource: app-source
+    taskRef:
+      kind: ClusterTask
+      name: openshift-client
+  - name: s2i-java
+    params:
+    - name: TLSVERIFY
+      value: "false"
+    resources:
+      inputs:
+      - name: source
+        resource: app-source
+      outputs:
+      - name: image
+        resource: app-image
+    runAfter:
+    - init
+    taskRef:
+      kind: ClusterTask
+      name: s2i-java-11
+  - name: status
+    params:
+    - name: SCRIPT
+      value: oc $@
+    - name: ARGS
+      value:
+      - rollout
+      - status
+      - dc/$(params.APP_NAME)
+    runAfter:
+    - s2i-java
+    taskRef:
+      kind: ClusterTask
+      name: openshift-client

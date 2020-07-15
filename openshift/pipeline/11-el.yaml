@@ -1,0 +1,11 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: quarkus-demo
+spec:
+  serviceAccountName: pipeline
+  triggers:
+  - bindings:
+    - name: quarkus-demo-gitea
+    template:
+      name: quarkus-demo

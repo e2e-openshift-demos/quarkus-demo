@@ -1,0 +1,34 @@
+---
+apiVersion: "route.openshift.io/v1"
+kind: "Route"
+metadata:
+  labels:
+    app.kubernetes.io/name: "quarkus-demo"
+    app.kubernetes.io/version: "1.0-SNAPSHOT"
+  name: "quarkus-demo-http"
+spec:
+  host: ""
+  path: "/"
+  port:
+    targetPort: 8080
+  to:
+    kind: "Service"
+    name: "quarkus-demo"
+---
+apiVersion: "route.openshift.io/v1"
+kind: "Route"
+metadata:
+  labels:
+    app.kubernetes.io/name: "quarkus-demo"
+    app.kubernetes.io/version: "1.0-SNAPSHOT"
+  name: "quarkus-demo"
+spec:
+  host: ""
+  port:
+    targetPort: h2
+  tls:
+    termination: passthrough
+  to:
+    kind: "Service"
+    name: "quarkus-demo"
+

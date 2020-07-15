@@ -1,0 +1,9 @@
+---
+apiVersion: "v1"
+kind: "ServiceAccount"
+metadata:
+  labels:
+    app.kubernetes.io/name: "quarkus-demo"
+    app.kubernetes.io/version: "1.0-SNAPSHOT"
+    app.openshift.io/runtime: "quarkus"
+  name: "quarkus-demo"
