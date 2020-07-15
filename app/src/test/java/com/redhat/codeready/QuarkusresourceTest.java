@@ -2,12 +2,17 @@ package com.redhat.codeready;
 
 import static io.restassured.RestAssured.given;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static org.hamcrest.CoreMatchers.anyOf;
+import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.CoreMatchers.is;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response.Status;
 
+import com.redhat.codeready.mgmt.CustomStatusService;
 import com.redhat.codeready.model.QuarkusDemoDataObject;
+import com.redhat.codeready.service.CacheInitializer;
+import com.redhat.codeready.service.QuarkusDataService;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;
@@ -20,6 +25,15 @@ public class QuarkusresourceTest {
   private static final Logger LOGGER = Logger.getLogger(QuarkusresourceTest.class);
 
   private static final String QDO_PATH = "/quarkus";
+
+  @Test
+  public void testHealth() {
+    given().when().get("/health").then().statusCode(200).body("status", is("UP")).body("checks.size()", is(4))
+        .body("checks.name",
+            everyItem(anyOf(is(CacheInitializer.class.getSimpleName()), is(QuarkusDataService.class.getSimpleName()),
+                is(CustomStatusService.class.getSimpleName()), is(QuarkusResource.class.getSimpleName()))))
+        .body("checks.status", everyItem(is("UP")));
+  }
 
   @Test
   public void testGetDO() {
